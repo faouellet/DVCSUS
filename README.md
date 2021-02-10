@@ -46,3 +46,7 @@ branch_create    Creates a new branch
 branch_checkout  Checks out a given branch
 
 ```
+
+## Architecture
+Les choix fonctionnels et architecturaux sont détaillés dans la série d'articles suivante: 
+* https://faouellet.github.io/categories/of-source-control-and-databases/
