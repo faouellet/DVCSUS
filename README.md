@@ -7,6 +7,11 @@ DVCUS nécessite que les outils/bibliothèques suivants soient présents pour po
 * [Boost](https://www.boost.org/) (version minimale: 1.70)
 * [CMake](https://cmake.org/) (version minimale: 3.12)
 
+De plus, DVCSUS utilise des fonctionnalités de C++20. Un compilateur récent utilisé doit donc être utilisé. Ci-dessous, vous retrouverez les versions minimales requises des compilateurs les plus populaires:
+* GCC: 10.0
+* Clang: 10.0
+* MSVC: 19.23
+
 ## Dépendances
 DVCUS utilise les bibliothèques suivantes:
 * [fmt](https://fmt.dev/latest/index.html)
