@@ -41,13 +41,13 @@ void ShowHelp()
 {
     std::cout << "usage: dvcsus <command> [<args>]\n\n"
               << "These are common dvcsus commands used in various situations:\n\n"
-              << "help			   Shows help menu\n"
-              << "init			   Creates an empty repository or reinitialize an existing one\n"
-              << "add			   Adds file contents to the staging area\n"
-              << "commit    	   Record changes to the repository\n"
-              << "set_remote	   Sets the remote repository to pull/push changes from\n"
-              << "push			   Pushes local changes to the remote repository\n"
-              << "pull			   Pulls local changes to the remote repository\n"
+              << "help             Shows help menu\n"
+              << "init             Creates an empty repository or reinitialize an existing one\n"
+              << "add              Adds file contents to the staging area\n"
+              << "commit           Record changes to the repository\n"
+              << "set_remote       Sets the remote repository to pull/push changes from\n"
+              << "push             Pushes local changes to the remote repository\n"
+              << "pull             Pulls local changes to the remote repository\n"
               << "branch_create    Creates a new branch\n"
               << "branch_checkout  Checks out a given branch\n";
 }
