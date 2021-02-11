@@ -17,21 +17,32 @@ namespace
 ////////////////////////////////////////////////////////////////////////////////////
 struct CommandInfo
 {
-    const std::string m_command;
+    const std::string_view m_command;
     const std::vector<std::string> m_args;
 };
 
 // Commandes supportées
+const std::string HELP_COMMAND{"help"};
+const std::string INIT_COMMAND{"init"};
+const std::string ADD_COMMAND{"add"};
+const std::string COMMIT_COMMAND{"commit"};
+const std::string SET_REMOTE_COMMAND{"set_remote"};
+const std::string PUSH_COMMAND{"push"};
+const std::string PULL_COMMAND{"pull"};
+const std::string BRANCH_CREATE_COMMAND{"branch_create"};
+const std::string BRANCH_CHECKOUT_COMMAND{"branch_checkout"};
+
+// Informations sur les commandes supportées
 std::vector<CommandInfo> cmdInfos{
-    {"help", std::vector<std::string>{}},
-    {"init", std::vector<std::string>{}},
-    {"add", std::vector<std::string>{"<filepath>"}},
-    {"commit", std::vector<std::string>{"<author>", "<email>", "<msg>"}},
-    {"set_remote", std::vector<std::string>{"<filepath>"}},
-    {"push", std::vector<std::string>{}},
-    {"pull", std::vector<std::string>{}},
-    {"branch_create", std::vector<std::string>{"<branchname>"}},
-    {"branch_checkout", std::vector<std::string>{"<branchname>"}},
+    {HELP_COMMAND, std::vector<std::string>{}},
+    {INIT_COMMAND, std::vector<std::string>{}},
+    {ADD_COMMAND, std::vector<std::string>{"<filepath>"}},
+    {COMMIT_COMMAND, std::vector<std::string>{"<author>", "<email>", "<msg>"}},
+    {SET_REMOTE_COMMAND, std::vector<std::string>{"<filepath>"}},
+    {PUSH_COMMAND, std::vector<std::string>{}},
+    {PULL_COMMAND, std::vector<std::string>{}},
+    {BRANCH_CREATE_COMMAND, std::vector<std::string>{"<branchname>"}},
+    {BRANCH_CHECKOUT_COMMAND, std::vector<std::string>{"<branchname>"}},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -39,17 +50,17 @@ std::vector<CommandInfo> cmdInfos{
 ////////////////////////////////////////////////////////////////////////////////////
 void ShowHelp()
 {
-    std::cout << "usage: dvcsus <command> [<args>]\n\n"
-              << "These are common dvcsus commands used in various situations:\n\n"
-              << "help             Shows help menu\n"
-              << "init             Creates an empty repository or reinitialize an existing one\n"
-              << "add              Adds file contents to the staging area\n"
-              << "commit           Record changes to the repository\n"
-              << "set_remote       Sets the remote repository to pull/push changes from\n"
-              << "push             Pushes local changes to the remote repository\n"
-              << "pull             Pulls local changes to the remote repository\n"
-              << "branch_create    Creates a new branch\n"
-              << "branch_checkout  Checks out a given branch\n";
+    fmt::print(std::cout, "usage: dvcsus <command> [<args>]\n\n"
+                          "These are common dvcsus commands used in various situations:\n\n"
+                          "help             Shows help menu\n"
+                          "init             Creates an empty repository or reinitialize an existing one\n"
+                          "add              Adds file contents to the staging area\n"
+                          "commit           Record changes to the repository\n"
+                          "set_remote       Sets the remote repository to pull/push changes from\n"
+                          "push             Pushes local changes to the remote repository\n"
+                          "pull             Pulls local changes to the remote repository\n"
+                          "branch_create    Creates a new branch\n"
+                          "branch_checkout  Checks out a given branch\n");
 }
 
 } // namespace
@@ -80,49 +91,51 @@ int main(int argc, char **argv)
     // NOTE: Les 2 premières valeurs dans argv sont le nom du programme et la commande à exécuter.
     if (argc > commandIt->m_args.size() + 2)
     {
-        fmt::print("usage: dvcsus {0} {1}", commandIt->m_command, fmt::join(commandIt->m_args, " "));
+        fmt::print(std::cout, "usage: dvcsus {0} {1}", commandIt->m_command, fmt::join(commandIt->m_args, " "));
         return 1;
     }
 
-    if (command == "help")
+    if (command == HELP_COMMAND)
     {
         ShowHelp();
     }
-    else if (command == "init")
+    else if (command == INIT_COMMAND)
     {
-        return dvcs::Init();
+        return dvcs::Init() ? 0 : 1;
     }
-    else if (command == "add")
+    else if (command == ADD_COMMAND)
     {
-        return dvcs::Add(argv[2]);
+        return dvcs::Add(argv[2]) ? 0 : 1;
     }
-    else if (command == "commit")
+    else if (command == COMMIT_COMMAND)
     {
-        return dvcs::Commit(argv[2], argv[3], argv[4]);
+        return dvcs::Commit(argv[2], argv[3], argv[4]) ? 0 : 1;
     }
-    else if (command == "set_remote")
+    else if (command == SET_REMOTE_COMMAND)
     {
-        return dvcs::SetRemote(argv[2]);
+        return dvcs::SetRemote(argv[2]) ? 0 : 1;
     }
-    else if (command == "push")
+    else if (command == PUSH_COMMAND)
     {
-        return dvcs::Push();
+        return dvcs::Push() ? 0 : 1;
     }
-    else if (command == "pull")
+    else if (command == PULL_COMMAND)
     {
-        return dvcs::Pull();
+        return dvcs::Pull() ? 0 : 1;
     }
-    else if (command == "branch_create")
+    else if (command == BRANCH_CREATE_COMMAND)
     {
-        return dvcs::CreateBranch(argv[2]);
+        return dvcs::CreateBranch(argv[2]) ? 0 : 1;
     }
-    else if (command == "branch_checkout")
+    else if (command == BRANCH_CHECKOUT_COMMAND)
     {
-        return dvcs::CheckoutBranch(argv[2]);
+        return dvcs::CheckoutBranch(argv[2]) ? 0 : 1;
     }
     else
     {
         assert(false);
         return 1;
     }
+
+    return 0;
 }
